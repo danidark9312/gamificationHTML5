@@ -6,6 +6,7 @@
 
 <script src="js/jquery.min.js" ></script>
 <script src="js/bootstrap.min.js" ></script>
+<script src="js/ball.js" ></script>
 <script src="js/follower.js" ></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 <link href="css/style.css" rel="stylesheet" type="text/css"/>
@@ -14,22 +15,43 @@
 
 <body>
 	<div class="row">
-		<div class="col-md-2" style="margin-left: 40px;margin-top: 40px;">
+		<div class="col-md-2" style="margin-left: 40px;margin-top: 40px;z-index: 100">
 			<div class="panel panel-default	">
 				<div class="panel-heading">prueba de animacion solo javascript</div>
 				<div class="panel-body" style="text-align: center;">
-				<div id="animationCanva">
-						
-				</div>
-					<button onclick="startFollow()" style="z-index: 100">Click</button>
+				
+					<div id="animationCanva">
+						<div class="form-group">
+							<label for="radius">Radius:</label> 
+							<input type="number" class="form-control" id="radius">
+						</div>
+						<div class="form-group">
+							<label for="radius">#:</label> 
+							<input type="number" class="form-control" id="number">
+						</div>
+						<div id="colorGroup" style="text-align: left;">
+							<div class="radio">
+								<label><input type="radio" name="color" value="200,0,0">red</label>
+							</div>
+							<div class="radio">
+								<label><input type="radio" name="color" value="0,200,0">green</label>
+							</div>
+							<div class="radio">
+								<label><input type="radio" name="color" value="0,0,200" >blue</label>
+							</div>
+						</div>
+					<button onclick="startFollow()">Click</button>
+					</div>
+					
 				</div>
 			</div>
+		</div>
+		<div class="col-md-9">
+			<canvas  height="350" id="canvas"
+				style="display: none"></canvas>
 		</div>
 	</div>
 </body>
 
-<canvas width="300" height="300" id="canvas" style="position:absolute;left: 0;top: 0;display: none">
-
-</canvas>
 
 </html>
