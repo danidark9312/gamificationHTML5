@@ -4,6 +4,7 @@ var xBouncePoint = 0;
 
 function Ball(initpos,speed,radius,startAngle) {
 	this.initPos = initpos;
+	this.context;
 	this.speed = speed || 20 ;
 	this.radius=radius || 40;
 	this.startAngle=startAngle || 35;
@@ -18,28 +19,7 @@ function Ball(initpos,speed,radius,startAngle) {
 	
 	this.start = function start(ctx){
 		var ball = this;
-		setInterval(function(){
-			 
-			 ctx.clearRect(0, 0, canvas.width, canvas.height);
-			 ctx.fillStyle = "black";
-			 ctx.beginPath();
-			 this.initPos.x+=(this.speed*this.direction.x);
-			 this.initPos.y =(this.initPos.x*this.direction.y)-(this.direction.x*this.direction.y)+this.bouncingPoint.x;
-			 ctx.arc(this.initPos.x,this.initPos.y,this.radius,0,(2*Math.PI)/1);
-			 ctx.stroke();
-			 
-			 if(pos[0]+radius>=canvas.width || pos[0]-radius<0){
-				 this.direction.x = changeDirection(direction.x);
-				 this.direction.y = changeDirection(direction.y);
-				 this.bouncingPoint.y = this.initPos.y;
-				 this.bouncingPoint.x = this.initPos.x
-			 }
-			 if(initPos.x+radius>=canvas.height || initPos.y-radius<0){
-				 direction.y = changeDirection(direction.y);
-				 this.bouncingPoint.y = this.initPos.y;
-				 this.bouncingPoint.x = this.initPos.x
-			 }
-			},1000/35)
+		
 	}
 	
 }
@@ -53,8 +33,8 @@ var settings = {
 
 function startFollow(){
 	 var ball = new Ball({x:100,y:100});
-	 ball.speed=30;
-	 ball.startAngle=/*Math.random()*/10;
+	 ball.speed=2;
+	 ball.startAngle=/*Math.random()*/45;
 	 
 	 var speed = ball.speed;
 	 var radius = ball.radius;
@@ -70,10 +50,29 @@ function startFollow(){
 	 canvas.style.display = "block";
 	 var ctx = canvas.getContext("2d");
 	 ball.start(ctx);
-	 /*
-	 xBouncePoint = ball.bouncingPoint.x;
-	 yBouncePoint = ball.bouncingPoint.y;
-	 */
+	
+	 setInterval(function(){
+			
+		 ctx.clearRect(0, 0, canvas.width, canvas.height);
+		 ctx.fillStyle = "black";
+		 ctx.beginPath();
+		 ball.initPos.x+=(ball.speed*ball.direction.x);
+		 ball.initPos.y =(ball.initPos.x*ball.direction.y)-(ball.bouncingPoint.x*ball.direction.y)+ball.bouncingPoint.y;
+		 ctx.arc(ball.initPos.x,ball.initPos.y,ball.radius,0,(2*Math.PI)/1);
+		 ctx.stroke();
+		 
+		 if(ball.initPos.x+radius>=canvas.width || ball.initPos.x-radius<0){
+			 ball.direction.x = changeDirection(direction.x);
+			 ball.direction.y = changeDirection(direction.y);
+			 ball.bouncingPoint.y = ball.initPos.y;
+			 ball.bouncingPoint.x = ball.initPos.x
+		 }
+		 if(ball.initPos.y+radius>=canvas.height || ball.initPos.y-radius<0){
+			 ball.direction.y = changeDirection(ball.direction.y);
+			 ball.bouncingPoint.y = ball.initPos.y;
+			 ball.bouncingPoint.x = ball.initPos.x
+		 }
+		},1000/35)
 	 
 	
 }
