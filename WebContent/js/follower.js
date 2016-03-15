@@ -19,6 +19,9 @@ function startFollow(){
 	var color = $("[name=color]:checked").val();
 	var radius = parseInt($("#radius").val());
 	var number = $("#number ").val() || 1;
+	settings.startingSpeed = $("#speed").val() || settings.startingSpeed;
+	settings.startingSpeed = settings.startingSpeed > 7 ? 7 :settings.startingSpeed;
+	settings.startingSpeed= settings.startingSpeed < 0 ? 1 :settings.startingSpeed;
 	
 	for (var i = 0; i < number; i++) {
 		var ball = new Ball({
@@ -26,16 +29,21 @@ function startFollow(){
 			y : 50
 		}, 100);
 		
-		if(color){
+		if(color)
 			ball.color = color;
-		}
-		if(radius){
+		if(radius)
 			ball.radius = radius;
-		}
 		ball.opacity = 0.4;
 		ball.speed = settings.startingSpeed*(Math.random()+1);
 		ball.startAngle = Math.random() * 90;
 
+		if(ball.initPos.x<ball.radius){
+			ball.initPos.x += ball.radius;
+		}
+		if(ball.initPos.y<ball.radius){
+			ball.initPos.y += ball.radius;
+		}
+		
 		var radius = ball.radius;
 
 		var canvas = document.getElementById("canvas");
@@ -69,7 +77,8 @@ function startFollow(){
 					ball.initPos.y = (ball.initPos.x * ball.direction.y)
 							- (ball.bouncingPoint.x * ball.direction.y)
 							+ ball.bouncingPoint.y;
-					
+					if(ball.radius<2)
+						ball.radius = 2;
 					ctx.arc(ball.initPos.x, ball.initPos.y, ball.radius, 0,
 							(2 * Math.PI) / 1);
 					ctx.stroke();
@@ -86,10 +95,20 @@ function startFollow(){
 					if (ball.initPos.x + ball.radius >= canvas.width || ball.initPos.x - ball.radius < 0) {
 						ball.changeXdirection();
 						ball.radius -= 0.2;
+						
+						if(ball.speed>1)
+							ball.speed -= 0.2;
+						else
+							ball.speed = 1;
+						
 					}
 					if (ball.initPos.y + ball.radius >= canvas.height|| ball.initPos.y - ball.radius < 0) {
 						ball.changeYdirection();
 						ball.radius -= 0.2;
+						if(ball.speed>1)
+							ball.speed -= 0.2;
+						else
+							ball.speed = 1;
 					}
 					if (ball.opacity <= 0) {
 						ball.kill();
@@ -100,9 +119,6 @@ function startFollow(){
 			}
 			},1000/settings.fps)
 	}
-	 
-	 
-	
 }
 
 function changeDirection(x) {
@@ -133,15 +149,15 @@ function validateBallImpact(ball) {
 				
 				if((ball.speed*ball.radius)>(ball2.speed*ball2.radius)){
 					ball2.kill();
-					ball.speed+=0.1;
-					ball.radius+=(ball2.radius*0.2);
-					ball.opacity+=0.01;
+					ball.speed+=/*0.1*/ball2.speed*0.1;
+					ball.radius+=(ball2.radius*0.04);
+					ball.opacity+=0.05;
 				}
 				else{
 					ball.kill();
-					ball2.speed+=0.1;
-					ball2.radius+=(ball.radius*0.2);
-					ball2.opacity+=0.01;
+					ball2.speed+=/*0.1*/ball.speed*0.1;
+					ball2.radius+=(ball.radius*0.04);
+					ball2.opacity+=0.05;
 				}
 					
 				cleanArray();

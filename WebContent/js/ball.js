@@ -18,6 +18,9 @@ function Ball(initpos,speed,radius,startAngle) {
 		x:1,y:1
 	};
 	
+	
+		
+	
 	this.name = "ball:"+(++indexBalls);
 	
 	this.getAxisSpeed = function (){
