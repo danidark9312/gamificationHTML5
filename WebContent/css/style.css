@@ -1,6 +1,10 @@
 @CHARSET "ISO-8859-1";
 #animationCanva{
-	height: 200px
+	
+}
+
+canva{
+	background-color: white;
 }
 
 .redCube{

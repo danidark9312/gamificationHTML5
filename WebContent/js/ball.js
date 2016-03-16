@@ -7,12 +7,13 @@ function Ball(initpos,speed,radius,startAngle) {
 	this.gravity = 1;
 	this.isAlive = false;
 	this.axisSpeed; 
+	this.startingSpeed = 2;
 	this.timeLife = 0;
 	this.name;
 	this.opacity = 1;
 	this.Yspeep = 2;
 	this.speed = speed || 20 ;
-	this.radius=radius || 40;
+	this.radius=radius || 20;
 	this.startAngle=startAngle || 35;
 	this.direction = {
 		x:1,y:1
